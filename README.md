@@ -30,7 +30,16 @@ These are software and framework versions.
 * Python: 3.7
 * Pytorch: 1.4.0
 ### Install Dependencies
-
+1. **Make sure to install cmake3, sox, sndfile, ffmpeg, flac on Ubuntu OS:
+   ```
+   sudo apt-get install cmake sox libsndfile1-dev ffmpeg flac
+   ```
+2. Install **Kaldi for speech preprocessing**:
+    ```
+    cd <any-place>
+    git clone https://github.com/kaldi-asr/kaldi
+    
+    ```
 ## Dataset
 This model supports for **Chinese Medical Speech Corpus (sChiMeS)** and **Punctuation Chinese Medical Speech Corpus (psChiMeS)**dataset for training and testing. If you are using other dataset, you have to reconstruct the dataset directories refer to the following descriptions.
 
