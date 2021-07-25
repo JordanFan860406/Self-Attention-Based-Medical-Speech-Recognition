@@ -35,19 +35,19 @@ These are software and framework versions.
    sudo apt-get install cmake sox libsndfile1-dev ffmpeg flac
    ```
 #### 2. Install **Kaldi for speech preprocessing**:
-    ```
-    cd <any-place>
-    git clone https://github.com/kaldi-asr/kaldi
-    cd kaldi/tools
-    make -j 4
-    ./extras/install_openblas.sh
-    sudo ./extras/install_mkl.sh
-    sudo apt-get install libatlas-base-dev
-    cd ..
-    cd kaldi/src
-    ./configure --use-cuda=no
-    make -j clean depend; make -j 4
-    ```
+ ```
+ cd <any-place>
+ git clone https://github.com/kaldi-asr/kaldi
+ cd kaldi/tools
+ make -j 4
+ ./extras/install_openblas.sh
+ sudo ./extras/install_mkl.sh
+ sudo apt-get install libatlas-base-dev
+ cd ..
+ cd kaldi/src
+ ./configure --use-cuda=no
+ make -j clean depend; make -j 4
+ ```
 #### 3. Install **ESPnet Toolkit**:
    ##### (1) Git clone espnet:
       ```
