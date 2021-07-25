@@ -31,46 +31,46 @@ These are software and framework versions.
 * Pytorch: 1.4.0
 ### Install Dependencies
 #### 1. **Make sure to install cmake3, sox, sndfile, ffmpeg, flac on Ubuntu OS**:
-   ```
-   sudo apt-get install cmake sox libsndfile1-dev ffmpeg flac
-   ```
+```
+sudo apt-get install cmake sox libsndfile1-dev ffmpeg flac
+```
 #### 2. Install **Kaldi for speech preprocessing**:
- ```
- cd <any-place>
- git clone https://github.com/kaldi-asr/kaldi
- cd kaldi/tools
- make -j 4
- ./extras/install_openblas.sh
- sudo ./extras/install_mkl.sh
- sudo apt-get install libatlas-base-dev
- cd ..
- cd kaldi/src
- ./configure --use-cuda=no
- make -j clean depend; make -j 4
- ```
+```
+cd <any-place>
+git clone https://github.com/kaldi-asr/kaldi
+cd kaldi/tools
+make -j 4
+./extras/install_openblas.sh
+sudo ./extras/install_mkl.sh
+sudo apt-get install libatlas-base-dev
+cd ..
+cd kaldi/src
+./configure --use-cuda=no
+make -j clean depend; make -j 4
+```
 #### 3. Install **ESPnet Toolkit**:
-   ##### (1) Git clone espnet:
-      ```
-      cd <any-place>
-      git clone https://github.com/espnet/espnet
-      ```
-   ##### (2) Put Compiled Kalfi under espnet/tools:
-      ```
-      cd espnet/tools
-      ln -s kaldi .
-      ```
-   ##### (3) Set python environment using Anaconda
-      ```
-      cd espnet/tools
-      CONDA_TOOLS_DIR=/home/ee303/anaconda
-      ./setup_anaconda.sh ${CONDA_TOOLS_DIR} espnet 3.8
-      ```
+##### (1) Git clone espnet:
+```
+cd <any-place>
+git clone https://github.com/espnet/espnet
+```
+##### (2) Put Compiled Kalfi under espnet/tools:
+```
+cd espnet/tools
+ln -s kaldi .
+```
+##### (3) Set python environment using Anaconda
+```
+cd espnet/tools
+CONDA_TOOLS_DIR=/home/ee303/anaconda
+./setup_anaconda.sh ${CONDA_TOOLS_DIR} espnet 3.8
+```
 #### 4. Install Espnet
-      ```
-      cd espnet/tools
-      make
-      make TH_VERSION=1.4.0 CUDA_VERSION=10.1
-      ```
+```
+cd espnet/tools
+make
+make TH_VERSION=1.4.0 CUDA_VERSION=10.1
+```
 ## Dataset
 This model supports for **Chinese Medical Speech Corpus (sChiMeS)** and **Punctuation Chinese Medical Speech Corpus (psChiMeS)**dataset for training and testing. If you are using other dataset, you have to reconstruct the dataset directories refer to the following descriptions.
 
