@@ -30,7 +30,7 @@ These are software and framework versions.
 * Python: 3.7
 * Pytorch: 1.4.0
 ### Install Dependencies
-1. **Make sure to install cmake3, sox, sndfile, ffmpeg, flac on Ubuntu OS:
+1. **Make sure to install cmake3, sox, sndfile, ffmpeg, flac on Ubuntu OS**:
    ```
    sudo apt-get install cmake sox libsndfile1-dev ffmpeg flac
    ```
@@ -49,12 +49,12 @@ These are software and framework versions.
     make -j clean depend; make -j 4
     ```
 2. Install **ESPnet Toolkit**:
-   2.1 Git clone espnet:
+   (1) Git clone espnet:
       ```
       cd <any-place>
       git clone https://github.com/espnet/espnet
       ```
-   2.2 Put Compiled Kalfi under espnet/tools:
+   (2) Put Compiled Kalfi under espnet/tools:
       ```
       cd espnet/tools
       ln -s kaldi .
