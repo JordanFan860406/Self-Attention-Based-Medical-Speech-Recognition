@@ -20,8 +20,8 @@
 ### Hardware Information
 These are the hardware inforamation we used to train or test our model.
 * CPU: Intel Core i7-9700K
-* GPU: NVIDIA GTX 2080 super
-* RAM: 8GB
+* GPU: NVIDIA GTX 2080 super 8GB
+* RAM: 32 GB
 ### Software Requirements
 These are software and framework versions.
 * OS: **Ubuntu 16.04 (Note: Not support for windows)**
