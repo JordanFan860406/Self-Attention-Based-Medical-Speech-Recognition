@@ -31,6 +31,12 @@ These are software and framework versions.
 * Pytorch: 1.4.0
 ### Install Dependencies
 
+## Preprocessing
+
+## Training
+
+## Testing
+
 ## Dataset
 This model supports for **Chinese Medical Speech Corpus (sChiMeS)** and **Punctuation Chinese Medical Speech Corpus (psChiMeS)**dataset for training and testing. If you are using other dataset, you have to reconstruct the dataset directories refer to the following descriptions.
 
