@@ -48,6 +48,20 @@ These are software and framework versions.
     ./configure --use-cuda=no
     make -j clean depend; make -j 4
     ```
+2. Install **ESPnet Toolkit**:
+   (1) Git clone espnet:
+      ```
+      cd <any-place>
+      git clone https://github.com/espnet/espnet
+      ```
+   (2) Put Compiled Kalfi under espnet/tools:
+      ```
+      cd espnet/tools
+      ln -s kaldi .
+      ```
+     
+
+
 ## Dataset
 This model supports for **Chinese Medical Speech Corpus (sChiMeS)** and **Punctuation Chinese Medical Speech Corpus (psChiMeS)**dataset for training and testing. If you are using other dataset, you have to reconstruct the dataset directories refer to the following descriptions.
 
