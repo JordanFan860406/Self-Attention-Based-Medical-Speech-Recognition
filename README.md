@@ -49,12 +49,12 @@ These are software and framework versions.
     make -j clean depend; make -j 4
     ```
 2. Install **ESPnet Toolkit**:
-   (1) Git clone espnet:
+   2.1 Git clone espnet:
       ```
       cd <any-place>
       git clone https://github.com/espnet/espnet
       ```
-   (2) Put Compiled Kalfi under espnet/tools:
+   2.2 Put Compiled Kalfi under espnet/tools:
       ```
       cd espnet/tools
       ln -s kaldi .
