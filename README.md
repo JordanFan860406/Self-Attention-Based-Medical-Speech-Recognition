@@ -59,6 +59,18 @@ These are software and framework versions.
       cd espnet/tools
       ln -s kaldi .
       ```
+   ##### (3) Set python environment using Anaconda
+      ```
+      cd espnet/tools
+      CONDA_TOOLS_DIR=/home/ee303/anaconda
+      ./setup_anaconda.sh ${CONDA_TOOLS_DIR} espnet 3.8
+      ```
+#### 4. Install Espnet
+      ```
+      cd espnet/tools
+      make
+      make TH_VERSION=1.4.0 CUDA_VERSION=10.1
+      ```
      
 
 
