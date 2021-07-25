@@ -38,7 +38,15 @@ These are software and framework versions.
     ```
     cd <any-place>
     git clone https://github.com/kaldi-asr/kaldi
-    
+    cd kaldi/tools
+    make -j 4
+    ./extras/install_openblas.sh
+    sudo ./extras/install_mkl.sh
+    sudo apt-get install libatlas-base-dev
+    cd ..
+    cd kaldi/src
+    ./configure --use-cuda=no
+    make -j clean depend; make -j 4
     ```
 ## Dataset
 This model supports for **Chinese Medical Speech Corpus (sChiMeS)** and **Punctuation Chinese Medical Speech Corpus (psChiMeS)**dataset for training and testing. If you are using other dataset, you have to reconstruct the dataset directories refer to the following descriptions.
