@@ -72,7 +72,7 @@ make
 make TH_VERSION=1.4.0 CUDA_VERSION=10.1
 ```
 ## Dataset
-This model supports for **Chinese Medical Speech Corpus (sChiMeS)** and **Punctuation Chinese Medical Speech Corpus (psChiMeS)**dataset for training and testing. If you want to use them, you can download on our [Google Drive](https://drive.google.com/drive/folders/1AVhkHPOLvZMwWBNqI5kXC85PsOmB-032?usp=sharing). Note: This corpus format is only for this Github Code.
+This model supports for **Chinese Medical Speech Corpus (sChiMeS)** and **Punctuation Chinese Medical Speech Corpus (psChiMeS)**dataset for training and testing. If you want to use them, you can download on our [Google Drive](https://drive.google.com/drive/folders/1AVhkHPOLvZMwWBNqI5kXC85PsOmB-032?usp=sharing). Note: This corpus format is only for this Model (self-attention based model).
 
 If you want to download the original formats of sChiMeS and psChiMeS, **sChiMeS and dataset is released on https://iclab.ee.ntust.edu.tw/datasets/**.
 
