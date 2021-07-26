@@ -4,7 +4,7 @@
     * [Hardware Information](#Hardware-Information)
     * [Software Requirements](#Software-Requirements)
     * [Install Dependencies](#Install-Dependencies)
-* [Dataset](#Dataset)
+* [Corpus](#Corpus)
 * [Preprocessing](#Preprocessing)
 * [Training](#Training)
 * [Testing](#Testing)
@@ -77,7 +77,7 @@ This model supports for **Chinese Medical Speech Corpus (sChiMeS)** and **Punctu
 If you want to download the original formats of sChiMeS and psChiMeS, **sChiMeS and dataset is released on https://iclab.ee.ntust.edu.tw/datasets/**.
 
 ## Preprocessing
-You only download our [Dataset](#Dataset) and unzip the file, then move the corpus file to **`espnet/egs/sChiMeS-14/data/chimes_14` for sChiMeS-14** or **`espnet/egs/psChiMeS-14/data/chimes_14` for psChiMeS-14**.
+You only download our [Corpus](#Corpus) and unzip the file, then move the corpus file to **`espnet/egs/sChiMeS-14/data/chimes_14` for sChiMeS-14** or **`espnet/egs/psChiMeS-14/data/chimes_14` for psChiMeS-14**.
 
 ## Training
 
