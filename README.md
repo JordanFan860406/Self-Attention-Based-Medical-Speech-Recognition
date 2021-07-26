@@ -49,7 +49,7 @@ cd kaldi/src
 make -j clean depend; make -j 4
 ```
 #### 3. Install **ESPnet Toolkit**:
-##### (1) Git clone our git hub:
+##### (1) Git clone our github:
 ```
 cd <any-place>
 git clone https://github.com/JordanFan860406/Self-Attention-Based-Medical-Speech-Recognition.git
