@@ -49,25 +49,25 @@ cd kaldi/src
 make -j clean depend; make -j 4
 ```
 #### 3. Install **ESPnet Toolkit**:
-##### (1) Git clone espnet:
+##### (1) Git clone our git hub:
 ```
 cd <any-place>
-git clone https://github.com/espnet/espnet
+git clone https://github.com/JordanFan860406/Self-Attention-Based-Medical-Speech-Recognition.git
 ```
 ##### (2) Put Compiled Kalfi under espnet/tools:
 ```
-cd espnet/tools
+cd Self-Attention-Based-Medical-Speech-Recognition/espnet/tools
 ln -s kaldi .
 ```
 ##### (3) Set python environment using Anaconda
 ```
-cd espnet/tools
+cd Self-Attention-Based-Medical-Speech-Recognition/espnet/tools
 CONDA_TOOLS_DIR=/home/ee303/anaconda
 ./setup_anaconda.sh ${CONDA_TOOLS_DIR} espnet 3.8
 ```
 #### 4. Install Espnet
 ```
-cd espnet/tools
+cd Self-Attention-Based-Medical-Speech-Recognition/espnet/tools
 make
 make TH_VERSION=1.4.0 CUDA_VERSION=10.1
 ```
