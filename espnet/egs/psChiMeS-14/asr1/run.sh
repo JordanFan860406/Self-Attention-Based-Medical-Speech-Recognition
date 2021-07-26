@@ -165,29 +165,29 @@ fi
 mkdir -p ${ngramexpdir}
 
 if [ ${stage} -le 3 ] && [ ${stop_stage} -ge 3 ]; then
-    echo "stage 3: LM Preparation"
-    lmdatadir=data/local/lm_train
-    mkdir -p ${lmdatadir}
-    text2tokenChimes.py -s 1 -n 1 data/train/text | cut -f 2- -d" " \
-        > ${lmdatadir}/train.txt
-    text2tokenChimes.py -s 1 -n 1 data/${train_dev}/text | cut -f 2- -d" " \
-        > ${lmdatadir}/valid.txt
+    echo "pass"
+    # lmdatadir=data/local/lm_train
+    # mkdir -p ${lmdatadir}
+    # text2tokenChimes.py -s 1 -n 1 data/train/text | cut -f 2- -d" " \
+    #     > ${lmdatadir}/train.txt
+    # text2tokenChimes.py -s 1 -n 1 data/${train_dev}/text | cut -f 2- -d" " \
+    #     > ${lmdatadir}/valid.txt
 
-    ${cuda_cmd} --gpu ${ngpu} ${lmexpdir}/train.log \
-        lm_train.py \
-        --config ${lm_config} \
-        --ngpu ${ngpu} \
-        --backend ${backend} \
-        --verbose 1 \
-        --outdir ${lmexpdir} \
-        --tensorboard-dir tensorboard/${lmexpname} \
-        --train-label ${lmdatadir}/train.txt \
-        --valid-label ${lmdatadir}/valid.txt \
-        --resume ${lm_resume} \
-        --dict ${dict}
+    # ${cuda_cmd} --gpu ${ngpu} ${lmexpdir}/train.log \
+    #     lm_train.py \
+    #     --config ${lm_config} \
+    #     --ngpu ${ngpu} \
+    #     --backend ${backend} \
+    #     --verbose 1 \
+    #     --outdir ${lmexpdir} \
+    #     --tensorboard-dir tensorboard/${lmexpname} \
+    #     --train-label ${lmdatadir}/train.txt \
+    #     --valid-label ${lmdatadir}/valid.txt \
+    #     --resume ${lm_resume} \
+    #     --dict ${dict}
     
-    lmplz --discount_fallback -o ${n_gram} <${lmdatadir}/train.txt > ${ngramexpdir}/${n_gram}gram.arpa
-    build_binary -s ${ngramexpdir}/${n_gram}gram.arpa ${ngramexpdir}/${n_gram}gram.bin
+    # lmplz --discount_fallback -o ${n_gram} <${lmdatadir}/train.txt > ${ngramexpdir}/${n_gram}gram.arpa
+    # build_binary -s ${ngramexpdir}/${n_gram}gram.arpa ${ngramexpdir}/${n_gram}gram.bin
 fi
 
 

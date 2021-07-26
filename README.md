@@ -32,54 +32,72 @@ These are software and framework versions.
 ### Install Dependencies
 #### 1. **Make sure to install cmake3, sox, sndfile, ffmpeg, flac on Ubuntu OS**:
 ```
-sudo apt-get install cmake sox libsndfile1-dev ffmpeg flac
+$ sudo apt-get install cmake sox libsndfile1-dev ffmpeg flac
 ```
 #### 2. Install **Kaldi for speech preprocessing**:
 ```
-cd <any-place>
-git clone https://github.com/kaldi-asr/kaldi
-cd kaldi/tools
-make -j 4
-./extras/install_openblas.sh
-sudo ./extras/install_mkl.sh
-sudo apt-get install libatlas-base-dev
-cd ..
-cd kaldi/src
-./configure --use-cuda=no
-make -j clean depend; make -j 4
+$ cd <any-place>
+$ git clone https://github.com/kaldi-asr/kaldi
+$ cd kaldi/tools
+$ make -j 4
+$ ./extras/install_openblas.sh
+$ sudo ./extras/install_mkl.sh
+$ sudo apt-get install libatlas-base-dev
+$ cd ..
+$ cd kaldi/src
+$ ./configure --use-cuda=no
+$ make -j clean depend; make -j 4
 ```
 #### 3. Install **ESPnet Toolkit**:
 ##### (1) Git clone our github:
 ```
-cd <any-place>
-git clone https://github.com/JordanFan860406/Self-Attention-Based-Medical-Speech-Recognition.git
+$ cd <any-place>
+$ git clone https://github.com/JordanFan860406/Self-Attention-Based-Medical-Speech-Recognition.git
 ```
 ##### (2) Put Compiled Kalfi under espnet/tools:
 ```
-cd Self-Attention-Based-Medical-Speech-Recognition/espnet/tools
-ln -s kaldi .
+$ cd Self-Attention-Based-Medical-Speech-Recognition/espnet/tools
+$ ln -s kaldi .
 ```
 ##### (3) Set python environment using Anaconda
 ```
-cd Self-Attention-Based-Medical-Speech-Recognition/espnet/tools
-CONDA_TOOLS_DIR=/home/ee303/anaconda
-./setup_anaconda.sh ${CONDA_TOOLS_DIR} espnet 3.8
+$ cd Self-Attention-Based-Medical-Speech-Recognition/espnet/tools
+$ CONDA_TOOLS_DIR=/home/ee303/anaconda
+$ ./setup_anaconda.sh ${CONDA_TOOLS_DIR} espnet 3.8
 ```
 #### 4. Install Espnet
 ```
-cd Self-Attention-Based-Medical-Speech-Recognition/espnet/tools
-make
-make TH_VERSION=1.4.0 CUDA_VERSION=10.1
+$ cd Self-Attention-Based-Medical-Speech-Recognition/espnet/tools
+$ make
+$ make TH_VERSION=1.4.0 CUDA_VERSION=10.1
 ```
 ## Corpus
-This model supports for **Chinese Medical Speech Corpus (sChiMeS)** and **Punctuation Chinese Medical Speech Corpus (psChiMeS)**dataset for training and testing. If you want to use them, you can download on our [Google Drive](https://drive.google.com/drive/folders/1AVhkHPOLvZMwWBNqI5kXC85PsOmB-032?usp=sharing). Note: This corpus format is only for this Model (the corpus is divided by recordist id).
+This model supports for **Chinese Medical Speech Corpus (sChiMeS)** and **Punctuation Chinese Medical Speech Corpus (psChiMeS)**dataset for training and testing. If you want to use them, you can download on our **[Google Drive](https://drive.google.com/drive/folders/1AVhkHPOLvZMwWBNqI5kXC85PsOmB-032?usp=sharing)**. <br>
+**Note: This corpus format is only for this Model (the corpus is divided by recordist id).**
 
 If you want to download the original formats of sChiMeS and psChiMeS, **sChiMeS and dataset is released on https://iclab.ee.ntust.edu.tw/datasets/**.
 
 ## Preprocessing
-You only download our [Corpus](#Corpus) and unzip the file, then move the corpus file to **`espnet/egs/sChiMeS-14/data/chimes_14` for sChiMeS-14** or **`espnet/egs/psChiMeS-14/data/chimes_14` for psChiMeS-14**.
+### 1. Corpus Preprocessing
+You only download our **[Corpus](#Corpus)** and unzip the file, then move the corpus file to **`espnet/egs/sChiMeS-14/asr1/data/chimes_14` for sChiMeS-14** or **`espnet/egs/psChiMeS-14/asr1/data/chimes_14` for psChiMeS-14**.
 
+### 2. link to kaldi preprocessing tools
+```
+$ cd espnet/egs/<corpus-directory>/asr1
+$ ln -s ../../../tools/kaldi/egs/wsj/s5/steps .
+$ ln -s ../../../tools/kaldi/egs/wsj/s5/utils .
+```
 ## Training
-
+```
+$ cd espnet/egs/<corpus-directory>/asr1/
+$ ./run.sh --ngpu 1 --stage 0 --stop-stage 4
+```
+Note: The training hyperparameters can be adjusted in **espnet/egs/\<corpus-directory>\/asr1/conf/tuning/train_pytorch_conformer_kernel15.yaml**
 ## Testing
+```
+$ cd espnet/egs/<corpus-directory>/asr1/
+$ ./run.sh --ngpu 1 --stage 5 --stop-stage 5
+```
+## Evaluation
+
 
