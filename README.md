@@ -71,12 +71,13 @@ cd Self-Attention-Based-Medical-Speech-Recognition/espnet/tools
 make
 make TH_VERSION=1.4.0 CUDA_VERSION=10.1
 ```
-## Dataset
-This model supports for **Chinese Medical Speech Corpus (sChiMeS)** and **Punctuation Chinese Medical Speech Corpus (psChiMeS)**dataset for training and testing. If you want to use them, you can download on our [Google Drive](https://drive.google.com/drive/folders/1AVhkHPOLvZMwWBNqI5kXC85PsOmB-032?usp=sharing). Note: This corpus format is only for this Model (self-attention based model).
+## Corpus
+This model supports for **Chinese Medical Speech Corpus (sChiMeS)** and **Punctuation Chinese Medical Speech Corpus (psChiMeS)**dataset for training and testing. If you want to use them, you can download on our [Google Drive](https://drive.google.com/drive/folders/1AVhkHPOLvZMwWBNqI5kXC85PsOmB-032?usp=sharing). Note: This corpus format is only for this Model (the corpus is divided by recordist id).
 
 If you want to download the original formats of sChiMeS and psChiMeS, **sChiMeS and dataset is released on https://iclab.ee.ntust.edu.tw/datasets/**.
 
 ## Preprocessing
+You only download our [Dataset](#Dataset) and unzip the file, then move the corpus file to **`espnet/egs/sChiMeS-14/data/chimes_14` for sChiMeS-14** or **`espnet/egs/psChiMeS-14/data/chimes_14` for psChiMeS-14**.
 
 ## Training
 
