@@ -12,6 +12,6 @@
 * Can train with or without **speed augmentation**.
 * Also can train with **wave augmentation** using additional audio files.
 
-* Evaluation code for this model which trained on this corpus
+* Evaluation code only for this model which trained on this corpus
 
 ---
