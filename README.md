@@ -106,7 +106,7 @@ $ python result_converter.py --input_file_path <your asr result file> --output_f
 ```
 ### 2. Compute **CER**, **KER** and **SER**
  ```
- cd evaluation
- python cer_ker_ser.py --asr_result_path <path to new format of asr reuslt>
+ $ cd evaluation
+ $ python cer_ker_ser.py --asr_result_path <path to new format of asr reuslt>
  ```
 
