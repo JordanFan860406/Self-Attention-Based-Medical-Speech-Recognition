@@ -99,3 +99,14 @@ $ cd espnet/egs/<corpus-directory>/asr1/
 $ ./run.sh --ngpu 1 --stage 5 --stop-stage 5
 ```
 ## Evaluation
+### 1. Change asr result format 
+```
+$ cd evaluation
+$ python result_converter.py --input_file_path <your asr result file> --output_file_path <path to new format of asr reuslt>
+```
+### 2. Compute **CER**, **KER** and **SER**
+ ```
+ cd evaluation
+ python cer_ker_ser.py --asr_result_path <path to new format of asr reuslt>
+ ```
+

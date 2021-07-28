@@ -1,13 +1,17 @@
 '''
-Out of keyword(OOK) & OOK-WER
+For ChiMeS protal
 '''
-
 import os
 import re
 import numpy as np
-import pandas as pd
+import editdistance as ed
 from collections import defaultdict
+import argparse
 
+parser = argparse.ArgumentParser()
+parser.add_argument("--gt_file", default="sChiMeS-14", type=str, help="chosee which ground truth you want to test")
+parser.add_argument("--asr_result_path", default="", type=str, help="input path of asr result to compute cer, ker, ser")
+args = parser.parse_args()
 
 def sep_seq(seq):
     """
@@ -22,7 +26,7 @@ def sep_seq(seq):
     word_temp = ""
     for c in seq:
         word_temp = word_temp + c
-        if c == "{" or c == "}" or c == "<" or c == ">":
+        if c == "{" or c == "}":
             is_eng_word = not is_eng_word
             if not is_eng_word:
                 temp.append(word_temp)
@@ -32,7 +36,55 @@ def sep_seq(seq):
             word_temp = ""
     return temp
 
-#############seperate keyword in sentence#############
+def load_file(file):
+    file_dict={}
+    with open(file,'r', encoding="utf-8")as f:
+        data = f.readlines()
+    data=[a.strip() for a in data]
+    for i in data:
+        name = i.split('\t')[0]
+        data = i.split('\t')[1]
+        file_dict[name]=data
+    file_dict=dict(sorted(file_dict.items(),key=lambda x:x[0]))
+    return file_dict
+
+#########path###############
+if args.gt_file == "sChiMeS-14":
+    gt_file = "gt_files/sChiMeS-14_test.txt"
+elif args.gt_file == "sChiMeS-5":
+    gt_file = "gt_files/sChiMeS-5_test.txt"
+elif args.gt_file == "psChiMeS-14":
+    gt_file = "gt_files/psChiMeS-14_test.txt"
+elif args.gt_file == "psChiMeS-5":
+    gt_file = "gt_files/psChiMeS-5_test.txt"
+
+# gt_file = args.gt_file_path
+pd_file = args.asr_result_path
+
+gt_dict = load_file(gt_file)
+pd_dict = load_file(pd_file)
+
+
+#########CER################
+def calculate_cer(pd_dict, gt_dict):
+    cer_list=[]
+    for name,data in gt_dict.items():
+        data = sep_seq(data)
+        cer = ed.eval(sep_seq(pd_dict[name]),data) / len(data)
+        cer_list.append(cer)
+    avg_cer = sum(cer_list) / len(cer_list)
+    return avg_cer
+
+avg_cer = calculate_cer(pd_dict,gt_dict)
+print('CER:', avg_cer*100)
+
+##########KER################
+with open('manifest/sort_keyword_list.txt', "r", encoding='utf8') as f:
+    keyword_data = f.readlines()
+keyword_data = [a.strip() for a in keyword_data]
+
+
+#############seperate keyword in sentence############
 next_word_idx=0
 def sep_keyword(q,next_word_idx,keyword_data,sentence):
     '''
@@ -66,7 +118,7 @@ def sep_keyword(q,next_word_idx,keyword_data,sentence):
         if len(current_keyword)==0 and len(tmp_word)!=1  or next_word_idx==len(q)-1:
             if (tmp_word in keyword_data) & (tmp_word!=last_current_keyword):
                 conti = not conti
-            else:# tmp_word!=last_current_keyword:
+            else:
                 conti = False
             #if has current keyword & len(tmp_word)>2: tmp_word=LUS -> <LUS>
             if next_word_idx!=len(q)-1 and len(sep_seq(tmp_word))>2:  #!=q[-1]             
@@ -121,7 +173,7 @@ def find_keyword(gt_data,pd_data,keyword_data):
                     for k in keyword_data:
                         if l==k:
                             tmp_key_gt.append(label) #keyword in gt
-            
+           
             for label in pd_data[num]:
                 if '<' in label:
                     l=''.join(label).replace('<','').replace('>','')
@@ -133,28 +185,7 @@ def find_keyword(gt_data,pd_data,keyword_data):
 
     return total_key_gt, total_key_pd
 
-def find_ook(gt_data,pd_data,ook):
-    '''
-    input : gt & pd After sep_keyword       ex:[['a','<LUS>'],['b','c'],...]
-    return : total_key_gt, total_key_pd     ex:[['<LUS>'],[],...]
-    '''
-    total_key_gt=[]          #how many keyword appear in whole result
-    total_key_pd=[]
-    for num,i in enumerate(gt_data):
-        tmp_key_gt=[]
-        tmp_key_pd=[]
-        for label in i:
-            if ('<' in label) & (label in ook):
-                tmp_key_gt.append(label) #keyword in gt
-        for label in pd_data[num]:
-            if ('<' in label) & (label in ook):
-                tmp_key_pd.append(label) #keyword in pd
-        total_key_gt.append(tmp_key_gt)
-        total_key_pd.append(tmp_key_pd)
-
-    return total_key_gt, total_key_pd
-
-def levenshtein_distance(hypothesis: list, reference: list, total_num_SDI): 
+def levenshtein_distance(hypothesis: list, reference: list, total_num_SDI):
     """
     C: correct
     W: wrong (S+D+I)
@@ -247,7 +278,6 @@ def levenshtein_distance(hypothesis: list, reference: list, total_num_SDI):
         if i < 0 and j >= 0:
             nb_map['D'] += 1
             total_num_SDI['D'] += 1
-            # id_num_SDI['D'] += 1
             ref_map.append(reference[j])
             hyp_map.append('**')
         elif j < 0 and i >= 0:
@@ -299,150 +329,26 @@ def levenshtein_distance(hypothesis: list, reference: list, total_num_SDI):
                 ref_error_dict[ref_map[i]][hyp_map[i]]=count
 
         tmp_dict.clear()
+    
     return wrong_cnt, match_idx, nb_map,total_num_SDI,ref_error_dict
 
-########################################
-#keyword_list
-with open('manifest/sort_keyword_list.txt', "r", encoding='utf8') as f:
-    keyword_data = f.readlines()
-keyword_data = [a.strip() for a in keyword_data]  #schimes
-
-#asr_result.txt
-asr_result = 'result/psChiMeS_14_speed_conformer.txt'
-
-#為了算ook放使用keyword增量前的訓和測試集
-train_file = 'manifest/train_manifest_14.csv' 
-test_file = 'manifest/test_manifest_14.csv'
-########################################
-
-with open(train_file, "r", encoding="utf-8") as f:
-    train_files = f.readlines()
-train_files = [a.strip() for a in train_files]
-train_c=[]
-for t in train_files:
-    t = t.split(",")[1]
-    with open (t,'r', encoding="utf-8")as f:
-        data=sep_seq(''.join(f.readlines()))
-    for d in data:
-        if d not in train_c:
-            train_c.append(d)
-
-with open(test_file, "r", encoding="utf-8") as f:
-    data_files = f.readlines()
-data_files = [a.strip() for a in data_files]
-
-def keyword_in_train_test(train_files, data_files,next_word_idx,keyword_data):
-    #keywords in training set
-    Tkeywords = []
-    for i in train_files:
-        label = i.split(",")[1]
-        with open(label, "r", encoding="utf-8") as f:
-            content = f.readlines()[0].strip()
-        train_sentence=[]
-        train_sentence =  sep_keyword(content,next_word_idx,keyword_data,train_sentence)
-        for j in train_sentence:
-            if ('<' in j) & (j not in Tkeywords):
-                sj=''.join(j.replace('<','').replace('>',''))
-                for k in keyword_data:                
-                    if sj==k:
-                        Tkeywords.append(j)
-    if 'keyword' in train_file:
-        for k in keyword_data:
-            k='<'+k+'>'
-            if k not in Tkeywords:
-                Tkeywords.append(k)
-                        
-    #keywords in testing set
-    keywords = []
-    for i in data_files:
-        label = i.split(",")[1]
-        with open(label, "r", encoding="utf-8") as f:
-            content = f.readlines()[0].strip()
-        test_sentence=[]
-        test_sentence =  sep_keyword(content,next_word_idx,keyword_data,test_sentence)
-        for j in test_sentence:
-            if ('<' in j) & (j not in keywords):
-                sj=''.join(j.replace('<','').replace('>',''))
-                for k in keyword_data:                
-                    if sj==k:
-                        keywords.append(j)
-                        if (len(sep_seq(sj))==1) & (sj in train_c):
-                            Tkeywords.append(j)
-    return Tkeywords,keywords
-        
-print('============Train============')
-print('train_files:',len(train_files))
-print('============Test============')
-print('test_files:',len(data_files))
-
-Tkeywords, keywords = keyword_in_train_test(train_files, data_files,next_word_idx,keyword_data)
-# Compare two file to get difference
-s1 = set(Tkeywords)
-s2 = set(keywords)
-before_keyaug_ook=[]
-before_keyaug_ook = list(s2.difference(s1))
-
-#################OOK KER in asr_result#######################
-#test gt
-test_manifest_list=[]
-for i in data_files:
-    i=i.split(',')[-1]              #/home/.../0530_03_25.txt
-    test_manifest_list.append(i) 
-
-n_list=[]
-with open(asr_result,'r', encoding="utf-8")as f:
-    data=f.readlines()
-n_list=[a.strip().split('\t')[0] for a in data]
-
-gt_list=[]
-for i in n_list:
-    df_file_path = i + '.txt' #ex:0530_03_25.txt
-    for m in test_manifest_list:
-        if df_file_path in m:
-            with open(m,'r', encoding="utf-8")as f:
-                data=f.readlines()
-            gt_list.append(data)
-
-#test pd
-with open(asr_result,'r',encoding='utf-8')as f:
-    data=f.readlines()
-data = [a.strip().split('\t')[-1] for a in data]
-
-#sep test: gt & pd, anotate keyword
+############sep gt & pd, anotate keyword####################
 gt_data=[]
 pd_data=[]
 
-for i in gt_list:
+for name,data in gt_dict.items():
     gt_sentence=[]
-    g = ''.join(i).replace(',','').replace('。','').replace('：','')
+    pd_sentence=[] 
+
+    g = ''.join(data).replace(',','').replace('。','').replace('：','')
     gt_sentence =  sep_keyword(g,next_word_idx,keyword_data,gt_sentence)
     gt_data.append(gt_sentence)
 
-for num in range(len(data)): 
-    pd_sentence=[]  
-    p = ''.join(data[num]).replace(',','').replace('。','').replace('：','')
+    p = ''.join(pd_dict[name]).replace(',','').replace('。','').replace('：','')
     pd_sentence =  sep_keyword(p,next_word_idx,keyword_data,pd_sentence)
     pd_data.append(pd_sentence)
 
-#################OOK-KER#####################
-#list of keywords in testing gt & pd
-oov_key_gt, oov_key_pd=find_ook(gt_data,pd_data,before_keyaug_ook)
-
-oov_num_SDI={"N": 0, "C": 0, "W": 0, "I": 0, "D": 0, "S": 0}
-oov_ref_error_dict=defaultdict(dict)  
-for i in range(len(oov_key_pd)):
-    wrong_cnt, match_idx, nb_map, oov_num_SDI, ref_error_dict = levenshtein_distance(
-                        reference=oov_key_gt[i],
-                        hypothesis=oov_key_pd[i],
-                        total_num_SDI=oov_num_SDI,
-                    )
-
-#KER=(S+D+I)/# ref keywords
-OOSDI=oov_num_SDI['S']+oov_num_SDI['D']+oov_num_SDI['I']
-OOKER = OOSDI /oov_num_SDI['N']               #whole nume of keywords
-print("Final OOKER:",OOKER)
-
-#################KER#####################
+#list of keywords in gt & pd
 total_key_gt, total_key_pd=find_keyword(gt_data,pd_data,keyword_data)
 
 total_num_SDI={"N": 0, "C": 0, "W": 0, "I": 0, "D": 0, "S": 0}
@@ -453,24 +359,27 @@ for i in range(len(total_key_pd)):
                         hypothesis=total_key_pd[i],
                         total_num_SDI=total_num_SDI,
                     )
-#KER=(S+D+I)/# ref keywords
-SDI=total_num_SDI['S']+total_num_SDI['D']+total_num_SDI['I']
-KER = SDI /total_num_SDI['N']               #whole nume of keywords
-print("Final KER:",KER)
 
-#################Num of OOK#####################
-ap=[]
-for i in oov_key_gt:
-    if len(i)!=0:
-        for a in i:
-            if a not in ap:
-                ap.append(a)
-eap=[]
-for i in oov_key_pd:
-    if len(i)!=0:
-        for a in i:
-            if a not in eap:
-                eap.append(a)
-print("*******Diff OOK in testing gt:",len(ap))
-print("*******Correct num of diff OOK in testing pd:",len(eap))
-print("Correct diff OOK:",eap)
+#KER=(S+D+I)/# ref keywords
+def calculate_ker(total_num_SDI):
+    SDI=total_num_SDI['S']+total_num_SDI['D']+total_num_SDI['I']
+    KER = SDI /total_num_SDI['N']
+    return KER
+
+avg_ker = calculate_ker(total_num_SDI)
+print("KER:",avg_ker*100)
+
+##########SER################
+def calculate_ser(pd_dict, gt_dict):
+    total_false_pd=0
+    for name,data in gt_dict.items():
+        if pd_dict[name] != data:
+            total_false_pd += 1
+    avg_ser = total_false_pd / len(gt_dict)
+    return avg_ser
+
+avg_ser = calculate_ser(pd_dict, gt_dict)
+print("SER:",avg_ser*100)
+
+
+
