@@ -72,7 +72,7 @@ $ make
 $ make TH_VERSION=1.4.0 CUDA_VERSION=10.1
 ```
 ## Corpus
-This model supports for **Chinese Medical Speech Corpus (sChiMeS)** and **Punctuation Chinese Medical Speech Corpus (psChiMeS)**dataset for training and testing. If you want to use them, you can download on our **[Google Drive](https://drive.google.com/drive/folders/1AVhkHPOLvZMwWBNqI5kXC85PsOmB-032?usp=sharing)**. <br>
+This model supports for **Chinese Medical Speech Corpus (sChiMeS)** and **Punctuation Chinese Medical Speech Corpus (psChiMeS)**dataset for training and testing. If you want to use them, you can download on our **[Google Drive](https://drive.google.com/drive/folders/1STEeVQ1KF-aqBO7a8-xujwcxC9Cwrcpc?usp=sharing)**. <br>
 **Note: This corpus format is only for this Model (the corpus is divided by recordist id).**
 
 If you want to download the original formats of sChiMeS and psChiMeS, **sChiMeS and dataset is released on https://iclab.ee.ntust.edu.tw/datasets/**.
@@ -109,4 +109,11 @@ $ python result_converter.py --input_file_path <your asr result file> --output_f
  $ cd evaluation
  $ python cer_ker_ser.py --asr_result_path <path to new format of asr reuslt>
  ```
+## Pre-trained Model Release
+In this github, we release our pretrained model.<br>
+**Note: All of the pretrained models are trained with speech augmentation**
+Model\Corpus    |sChiMeS-14   | psChiMeS-14 
+----------------|:-----------:|:------------:
+Transformer  ASR| [Download](https://drive.google.com/file/d/1qX_ftgLHonZUIyxy0OUqZaUL4TRwEgbU/view?usp=sharing)|  [Download](https://drive.google.com/file/d/1j3bJwepuawzS878QTO7Yf7RiIqUjWemI/view?usp=sharing)   
+Conformer ASR   | Coming Soon |  Coming Soon  
 
