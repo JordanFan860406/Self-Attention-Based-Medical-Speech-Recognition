@@ -90,7 +90,8 @@ $ ln -s ../../../tools/kaldi/egs/wsj/s5/utils .
 ## Training
 ```
 $ cd espnet/egs/<corpus-directory>/asr1/
-$ ./run.sh --ngpu 1 --stage 0 --stop-stage 4
+$ ./run.sh --ngpu 1 --stage 0 --stop-stage 2
+$ ./run.sh --ngpu 1 --stage 4 --stop-stage 4
 ```
 Note: The training hyperparameters can be adjusted in **espnet/egs/\<corpus-directory>\/asr1/conf/tuning/train_pytorch_conformer_kernel15.yaml**
 ## Testing
