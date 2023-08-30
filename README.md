@@ -54,7 +54,7 @@ $ make -j clean depend; make -j 4
 $ cd <any-place>
 $ git clone https://github.com/JordanFan860406/Self-Attention-Based-Medical-Speech-Recognition.git
 ```
-##### (2) Put Compiled Kalfi under espnet/tools:
+##### (2) Put Compiled Kaldi under espnet/tools:
 ```
 $ cd Self-Attention-Based-Medical-Speech-Recognition/espnet/tools
 $ ln -s kaldi .
